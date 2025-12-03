@@ -1,0 +1,132 @@
+---
+title: "Z-Image Generation & Z-Workflows on Promptus"
+description: "Below is a reference to the Z-Image workflow diagram you provided. This diagram illustrates how Z-Image models, CLIP encoding, VAE encoding/decoding, and KSampler interact in a typical Promptus/Comfy-style node pipeline."
+---
+
+# 
+
+## Workflow Diagram
+
+Below is a reference to the Z-Image workflow diagram you provided. This diagram illustrates how Z-Image models, CLIP encoding, VAE encoding/decoding, and KSampler interact in a typical Promptus/Comfy-style node pipeline.
+
+**`(Workflow image from your environment: /mnt/data/e1d2a9f0-833a-4856-9ce4-9fff8c2e29e9.webp)`**
+
+![Image To Image Workflow For Z Image Doesnt Work V0 Lqfchpxa7e4g1 Web](/images/image-to-image-workflow-for-z-image-doesnt-work-v0-lqfchpxa7e4g1.webp)
+
+## Introduction
+
+Z-Image Generation is an advanced image synthesis framework optimized for high‑speed, high‑quality visual outputs. It integrates deeply with the **Promptus** workflow ecosystem, allowing creators to generate images, manipulate conditioning, run VQA models, and build modular AI pipelines using **Z‑Workflows**.
+
+This page provides an overview of Z‑Image Generation, how Z‑Workflows operate, and how they integrate within Promptus.
+
+---
+
+## What Is Z-Image Generation?
+
+Z‑Image Generation is built around:
+
+- **Z‑Image Turbo** models designed for extremely fast inferencing
+- **VAE-based encoding/decoding**, allowing rapid conversion between latent and pixel spaces
+- **UNet-based diffusion pipelines** with support for fp8 and bf16 weights
+- **CLIP text encoders** (e.g., Qwen3‑4B models)
+
+Z‑Image is typically used for:
+
+- Photo‑realistic portraits
+- Product renders
+- Stylized art
+- Image‑to‑image transformations
+
+Its speed and lightweight model formats make it ideal for real‑time or high‑volume generation.
+
+---
+
+## What Are Z‑Workflows?
+
+**Z‑Workflows** are modular pipelines designed to run on Promptus to streamline image generation tasks. They combine multiple nodes—model loaders, samplers, encoders, scaling tools, and preview modules—into a reusable structure that allows anyone to:
+
+- Generate images from text prompts
+- Enhance or adjust existing images
+- Process images through VQA, scaling, or conditioning passes
+- Run experiments or batch jobs
+
+Each workflow consists of interconnected components such as:
+
+- **Model Loading** (UNET, VAE, CLIP)
+- **Prompt Encoding** (CLIPTextEncode)
+- **Latent Sampling** (KSampler)
+- **Image Pre/Post Processing** (ScaleDown, VQA, ShowAnything)
+
+---
+
+## How Z‑Workflows Run on Promptus
+
+Promptus acts as an orchestration layer that:
+
+1. **Loads the user’s workflow JSON** (like the one you provided)
+2. **Initializes all nodes**, resolving models and dependencies
+3. **Executes the graph automatically** in the correct order
+4. **Streams outputs**, including:
+   - Final rendered images
+   - Intermediate latents
+   - VQA text output
+   - Debug previews
+
+### Key Features of Promptus Integration
+
+- **Node‑based interface** for building and modifying Z‑Workflows
+- **GPU‑accelerated execution** with optimization for fp8/fp16
+- **Automatic dependency resolution** for model URLs
+- **Live preview windows** (PreviewImage nodes)
+- **Upload handlers** (LoadImage)
+- **Runtime parameter overrides** (seed, steps, CFG, etc.)
+
+---
+
+## Example Workflow Structure
+
+A typical Z‑Workflow includes:
+
+1. **Load Models:**
+   - UNETLoader → loads Z‑Image Turbo
+   - VAELoader → loads Z‑Image VAE
+   - CLIPLoader → loads the text encoder
+2. **Encode Prompt:**
+   - CLIPTextEncode → produces conditioning vectors
+3. **Prepare Latents:**
+   - VAEEncode for image‑to‑image
+   - or a blank latent initializer for text‑to‑image
+4. **Sample:**
+   - KSampler → main diffusion engine
+5. **Decode:**
+   - VAEDecode → converts latents to an image
+6. **Preview & Process:**
+   - PreviewImage
+   - imageScaleDownToSize
+   - Qwen3_VQA (optional)
+
+These combine into a modular, reusable, JSON‑based pipeline.
+
+---
+
+## Benefits of Z‑Workflows on Promptus
+
+- **Reusable:** Load, modify, and customize workflows easily.
+- **Fast:** FP8 and optimized UNet allow near real‑time generation.
+- **Flexible:** Compatible with text‑to‑image, image‑to‑image, and hybrid pipelines.
+- **Intelligent:** Integrates VQA models like Qwen3‑VL for contextual reasoning.
+- **Shareable:** Export and import workflow JSONs instantly.
+
+---
+
+## Conclusion
+
+Z‑Image Generation combined with Z‑Workflows on Promptus offers a powerful, efficient, and modular approach to creating AI‑generated images. Whether for rapid prototyping, professional visual production, or experimentation, the ecosystem provides all the components needed to build sophisticated image pipelines.
+
+<Card title="Generate using Z-image workflow" icon="sparkles" iconType="regular" href="https://www.promptus.ai" cta="Use on Promptus Web">
+  Quick text to image workflow using Z-image model. 
+</Card>
+
+<Tip>
+  Use this to run it more efficiently
+</Tip>
